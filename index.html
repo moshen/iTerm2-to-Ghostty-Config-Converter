@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>iTerm2 to Ghostty Config Converter</title>
+
+  <script src="wrapper.js"></script>
+
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .container {
+        display: grid;
+        grid-row-gap: 10px;
+        grid-template-rows: 1;
+    }
+
+    .center {
+        grid-column: 2 / span 2;
+    }
+
+    .col1 {
+        grid-template-columns: 1fr;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    #aboutLink {
+        cursor: pointer;
+    }
+
+    #aboutText pre {
+        display: inline;
+    }
+
+    #output {
+        min-height: 25rem;
+    }
+
+    #errorMessage {
+        color: red;
+    }
+  </style>
+</head>
+<body>
+  <div class="container grid">
+    <h1 class="center">iTerm2 to Ghostty Config Converter</h1>
+    <h3 id="aboutLink" class="center">→ About</h3>
+    <div id="aboutText" class="center">
+      This tool allows you to convert an iTerm2 configuration or theme file to a
+      <a href="https://ghostty.org/">Ghostty</a>
+      <a href="https://ghostty.org/docs/config">config</a>
+      file. Simply load your iTerm2 config or theme file
+      and click the download button to get your Ghostty config file.
+      </p>
+
+      There are currently three supported file formats:
+      <ul>
+        <li><pre>.plist</pre> - iTerm2 configuration file</li>
+        <li><pre>.json</pre> - iTerm2 profile export</li>
+        <li><pre>.itermcolors</pre> - iTerm2 color preset file</li>
+      </ul>
+      </p>
+
+      Your iTerm2 configuration <pre>.plist</pre> file is located at
+      <pre>~/Library/Preferences/com.googlecode.iterm2.plist</pre>.
+      If you upload a iTerm2 configuration file, you can select which profile or
+      color scheme you want to convert. The tool will default to the first in
+      the list.
+      </p>
+
+      You can obtain a <pre>.json</pre> export of your profile by going to
+      iTerm2's "Settings..." menu, selecting the "Profiles" tab, and clicking on the
+      profile you want to export. Then click the "Other Actions" dropdown and
+      select "Save Profile as JSON...".
+
+      You can obtain a <pre>.itermcolors</pre> file of your current colorscheme by going to
+      <a href="https://iterm2.com/documentation-preferences-profiles-colors.html#:~:text=your%20background%20color.-,Color%20Presets...,-iTerm2%20ships%20with">
+          iTerm2's "Settings..." menu, selecting the "Profiles" tab, clicking
+          the "Colors" sub-tab and clicking on the "Color Presets..." dropdown.
+      </a>
+      </p>
+
+      Currently, this tool only supports color-related settings. It is currently
+      under developement.
+      </p>
+
+      The tool doesn't account for any colorspace or alpha differences between the two formats.
+      </p>
+    </div>
+    <input type="file" id="fileInput" class="center" accept=".itermcolors,.plist,.json,text/xml" />
+
+    <p id="errorMessage" class="center hidden"></p>
+    <form class="container col1 center" id="downloadForm" onsubmit="download(this['name'].value, this['output'].value)" action="javascript:void(0);">
+      <label>Profile Sections:<select id="profileSection"></select></label>
+      <textarea id="output" class="" name="output"></textarea>
+      <label>Config Name: <input id="configName" class="" type="text" name="name" value="config"></label>
+      <input id="downloadButton" class="" type="submit" value="Download">
+    </form>
+  </div>
+
+  <script>
+function download(filename, text) {
+	const el = document.createElement("a");
+	el.setAttribute(
+		"href",
+		"data:application/octet-stream;charset=utf-8," + encodeURIComponent(text),
+	);
+	el.setAttribute("download", filename);
+
+	el.style.display = "none";
+	document.body.appendChild(el);
+
+	el.click();
+
+	document.body.removeChild(el);
+}
+  </script>
+  <script type="module" src="index.mjs"></script>
+</body>
+</html>
