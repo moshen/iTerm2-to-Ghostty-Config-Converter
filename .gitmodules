@@ -1,0 +1,3 @@
+[submodule "vendor/libplist"]
+	path = vendor/libplist
+	url = git@github.com:libimobiledevice/libplist.git
