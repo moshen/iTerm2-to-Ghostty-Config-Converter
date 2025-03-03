@@ -33,3 +33,12 @@ various targets with something like:
 
 If you don't feel comfortable dropping your configs into a webpage, you can run
 this locally in a couple of commands.
+
+First, clone this repository. Then:
+
+```shell
+git worktree add gh-pages
+./scripts/redbean.com -D gh-pages
+```
+
+Then you should be serving the build site locally on port `8080`.
