@@ -153,25 +153,7 @@ function isBplist(bytes) {
  */
 function isPlistXml(bytes) {
   try {
-    // Find end of the xml header
-    let xmlHeader = null;
-    let count = 0;
-    for (let i = 0; i < bytes.length; i++) {
-      // Looking for the second '>' character
-      if (bytes[i] === 0x3e) {
-        count++;
-        if (count === 2) {
-          xmlHeader = bytes.subarray(0, i + 1);
-          break;
-        }
-      }
-    }
-
-    if (!xmlHeader) {
-      return false;
-    }
-
-    const xml = getXmlFromBytes(xmlHeader);
+    const xml = getXmlFromBytes(bytes);
     return xml.doctype.name === "plist";
   } catch (err) {
     return false;
@@ -403,8 +385,8 @@ async function processFile(file) {
       outputElement.textContent = getConfig(jsonObj);
       enableForm();
     } else {
-        // We couldn't parse the file
-        throw new Error(DEFAULT_ERROR_MESSAGE);
+      // We couldn't parse the file
+      throw new Error(DEFAULT_ERROR_MESSAGE);
     }
   } catch (err) {
     showErrorMsg(err);
@@ -440,11 +422,9 @@ profileSectionElement.addEventListener("change", (event) => {
   processSelected(selectedOption);
 });
 
-document
-  .getElementById("fileInput")
-  .addEventListener("change", (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      processFile(file);
-    }
-  });
+document.getElementById("fileInput").addEventListener("change", (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    processFile(file);
+  }
+});
