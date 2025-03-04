@@ -71,6 +71,7 @@ class Config {
     const fields = [
       "Normal Font",
       "Use Bright Bold",
+      "Transparency",
       "Ansi 0 Color",
       "Ansi 1 Color",
       "Ansi 2 Color",
@@ -139,6 +140,9 @@ class Config {
   }
   ["Use Bright Bold"]() {
     return `bold-is-bright = ${this.jsonObj["Use Bright Bold"]}`;
+  }
+  ["Transparency"]() {
+    return `background-opacity = ${1 - (+this.jsonObj["Transparency"])}`;
   }
   ["Ansi 0 Color"]() {
     return `palette = 0=${rgbToHex(this.jsonObj["Ansi 0 Color"])}`;
