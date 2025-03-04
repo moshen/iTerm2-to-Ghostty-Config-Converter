@@ -103,12 +103,12 @@ class Config {
       }
     }
 
-    return configString.join("\n") + "\n";
+    return `${configString.join("\n")}\n`;
   }
 
-  ["Normal Font"]() {
+  "Normal Font"() {
     const fontRecord = this.jsonObj["Normal Font"];
-    let match = fontRecord.match(/^(.+) ([0-9]+)$/);
+    const match = fontRecord.match(/^(.+) ([0-9]+)$/);
     if (!match) {
       return `# Unknown font\n#font-family = ${fontRecord}`;
     }
@@ -120,99 +120,102 @@ class Config {
     if (!this.jsonObj["Recent Fonts"].includes(fontName)) {
       // Try to find the closest match
       const fontNameNoSpaces = fontName.replace(/\s/g, "");
-      fontName = this.jsonObj["Recent Fonts"].reduce((memo, font) => {
-        const fontNoSpaces = font.replace(/\s/g, "");
-        let i = 0;
-        for (; i < fontNoSpaces.length && i < fontNameNoSpaces.length; i++) {
-          if (fontNoSpaces[i] !== fontNameNoSpaces[i]) {
-            break;
+      fontName = this.jsonObj["Recent Fonts"].reduce(
+        (memo, font) => {
+          const fontNoSpaces = font.replace(/\s/g, "");
+          let i = 0;
+          for (; i < fontNoSpaces.length && i < fontNameNoSpaces.length; i++) {
+            if (fontNoSpaces[i] !== fontNameNoSpaces[i]) {
+              break;
+            }
           }
-        }
 
-        if (i > memo.i) {
-          return {font, i};
-        }
+          if (i > memo.i) {
+            return { font, i };
+          }
 
-        return memo;
-      }, { i: -1 }).font;
+          return memo;
+        },
+        { i: -1 },
+      ).font;
     }
 
     return `font-family = ${fontName}\nfont-size = ${fontSize}`;
   }
-  ["Use Bright Bold"]() {
+  "Use Bright Bold"() {
     return `bold-is-bright = ${this.jsonObj["Use Bright Bold"]}`;
   }
-  ["Transparency"]() {
-    return `background-opacity = ${1 - (+this.jsonObj["Transparency"])}`;
+  "Transparency"() {
+    return `background-opacity = ${1 - +this.jsonObj.Transparency}`;
   }
-  ["Blur"]() {
-    if (this.jsonObj["Blur"]) {
-      return `background-blur = ${parseInt(this.jsonObj["Blur Radius"], 10)}`;
+  "Blur"() {
+    if (this.jsonObj.Blur) {
+      return `background-blur = ${Number.parseInt(this.jsonObj["Blur Radius"], 10)}`;
     }
 
-    return `background-blur = false`;
+    return "background-blur = false";
   }
-  ["Ansi 0 Color"]() {
+  "Ansi 0 Color"() {
     return `palette = 0=${rgbToHex(this.jsonObj["Ansi 0 Color"])}`;
   }
-  ["Ansi 1 Color"]() {
+  "Ansi 1 Color"() {
     return `palette = 1=${rgbToHex(this.jsonObj["Ansi 1 Color"])}`;
   }
-  ["Ansi 2 Color"]() {
+  "Ansi 2 Color"() {
     return `palette = 2=${rgbToHex(this.jsonObj["Ansi 2 Color"])}`;
   }
-  ["Ansi 3 Color"]() {
+  "Ansi 3 Color"() {
     return `palette = 3=${rgbToHex(this.jsonObj["Ansi 3 Color"])}`;
   }
-  ["Ansi 4 Color"]() {
+  "Ansi 4 Color"() {
     return `palette = 4=${rgbToHex(this.jsonObj["Ansi 4 Color"])}`;
   }
-  ["Ansi 5 Color"]() {
+  "Ansi 5 Color"() {
     return `palette = 5=${rgbToHex(this.jsonObj["Ansi 5 Color"])}`;
   }
-  ["Ansi 6 Color"]() {
+  "Ansi 6 Color"() {
     return `palette = 6=${rgbToHex(this.jsonObj["Ansi 6 Color"])}`;
   }
-  ["Ansi 7 Color"]() {
+  "Ansi 7 Color"() {
     return `palette = 7=${rgbToHex(this.jsonObj["Ansi 7 Color"])}`;
   }
-  ["Ansi 8 Color"]() {
+  "Ansi 8 Color"() {
     return `palette = 8=${rgbToHex(this.jsonObj["Ansi 8 Color"])}`;
   }
-  ["Ansi 9 Color"]() {
+  "Ansi 9 Color"() {
     return `palette = 9=${rgbToHex(this.jsonObj["Ansi 9 Color"])}`;
   }
-  ["Ansi 10 Color"]() {
+  "Ansi 10 Color"() {
     return `palette = 10=${rgbToHex(this.jsonObj["Ansi 10 Color"])}`;
   }
-  ["Ansi 11 Color"]() {
+  "Ansi 11 Color"() {
     return `palette = 11=${rgbToHex(this.jsonObj["Ansi 11 Color"])}`;
   }
-  ["Ansi 12 Color"]() {
+  "Ansi 12 Color"() {
     return `palette = 12=${rgbToHex(this.jsonObj["Ansi 12 Color"])}`;
   }
-  ["Ansi 13 Color"]() {
+  "Ansi 13 Color"() {
     return `palette = 13=${rgbToHex(this.jsonObj["Ansi 13 Color"])}`;
   }
-  ["Ansi 14 Color"]() {
+  "Ansi 14 Color"() {
     return `palette = 14=${rgbToHex(this.jsonObj["Ansi 14 Color"])}`;
   }
-  ["Ansi 15 Color"]() {
+  "Ansi 15 Color"() {
     return `palette = 15=${rgbToHex(this.jsonObj["Ansi 15 Color"])}`;
   }
-  ["Background Color"]() {
+  "Background Color"() {
     return `background = ${rgbToHex(this.jsonObj["Background Color"])}`;
   }
-  ["Foreground Color"]() {
+  "Foreground Color"() {
     return `foreground = ${rgbToHex(this.jsonObj["Foreground Color"])}`;
   }
-  ["Cursor Color"]() {
+  "Cursor Color"() {
     return `cursor-color = ${rgbToHex(this.jsonObj["Cursor Color"])}`;
   }
-  ["Selection Color"]() {
+  "Selection Color"() {
     return `selection-background = ${rgbToHex(this.jsonObj["Selection Color"])}`;
   }
-  ["Selected Text Color"]() {
+  "Selected Text Color"() {
     return `selection-foreground = ${rgbToHex(this.jsonObj["Selected Text Color"])}`;
   }
 }
