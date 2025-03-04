@@ -48,6 +48,7 @@ clean-submodules:
 
 .PHONY = clean-dist
 clean-dist:
+	git clean -fx dist
 
 .PHONY = clean
 clean: clean-submodules clean-dist
