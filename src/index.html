@@ -8,49 +8,49 @@
   <script src="wrapper.js"></script>
 
   <style>
-    body {
-      font-family: sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-    
-    .grid {
-        grid-template-columns: repeat(4, 1fr);
-    }
+body {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+}
 
-    .container {
-        display: grid;
-        grid-row-gap: 10px;
-        grid-template-rows: 1;
-    }
+.grid {
+  grid-template-columns: repeat(4, 1fr);
+}
 
-    .center {
-        grid-column: 2 / span 2;
-    }
+.container {
+  display: grid;
+  grid-row-gap: 10px;
+  grid-template-rows: 1;
+}
 
-    .col1 {
-        grid-template-columns: 1fr;
-    }
+.center {
+  grid-column: 2 / span 2;
+}
 
-    .hidden {
-        display: none;
-    }
+.col1 {
+  grid-template-columns: 1fr;
+}
 
-    #aboutLink {
-        cursor: pointer;
-    }
+.hidden {
+  display: none;
+}
 
-    #aboutText pre {
-        display: inline;
-    }
+#aboutLink {
+  cursor: pointer;
+}
 
-    #output {
-        min-height: 25rem;
-    }
+#aboutText pre {
+  display: inline;
+}
 
-    #errorMessage {
-        color: red;
-    }
+#output {
+  min-height: 25rem;
+}
+
+#errorMessage {
+  color: red;
+}
   </style>
 </head>
 <body>
@@ -102,7 +102,7 @@
       The tool doesn't account for any colorspace or alpha differences between the two formats.
       </p>
     </div>
-    <input type="file" id="fileInput" class="center" accept=".itermcolors,.plist,.json,text/xml" />
+    <input type="file" id="fileInput" class="center" accept=".itermcolors,.plist,.json" />
 
     <p id="errorMessage" class="center hidden"></p>
     <form class="container col1 center" id="downloadForm" onsubmit="download(this['name'].value, this['output'].value)" action="javascript:void(0);">
@@ -115,19 +115,19 @@
 
   <script>
 function download(filename, text) {
-	const el = document.createElement("a");
-	el.setAttribute(
-		"href",
-		"data:application/octet-stream;charset=utf-8," + encodeURIComponent(text),
-	);
-	el.setAttribute("download", filename);
+  const el = document.createElement("a");
+  el.setAttribute(
+    "href",
+    "data:application/octet-stream;charset=utf-8," + encodeURIComponent(text),
+  );
+  el.setAttribute("download", filename);
 
-	el.style.display = "none";
-	document.body.appendChild(el);
+  el.style.display = "none";
+  document.body.appendChild(el);
 
-	el.click();
+  el.click();
 
-	document.body.removeChild(el);
+  document.body.removeChild(el);
 }
   </script>
   <script type="module" src="index.mjs"></script>

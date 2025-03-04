@@ -1,6 +1,10 @@
 # iTerm2 to Ghostty Config Converter
 
-This is a browser based iTerm2 to Ghostty configuration converter.
+This is a browser based [iTerm2](https://iterm2.com/) to
+[Ghostty](https://ghostty.org/) configuration converter.
+
+[Click here to use converter on Github
+pages](https://moshen.github.io/iTerm2-to-Ghostty-Config-Converter/)
 
 ## Why
 
