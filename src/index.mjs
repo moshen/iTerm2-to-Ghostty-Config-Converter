@@ -72,6 +72,7 @@ class Config {
       "Normal Font",
       "Use Bright Bold",
       "Transparency",
+      "Blur",
       "Ansi 0 Color",
       "Ansi 1 Color",
       "Ansi 2 Color",
@@ -143,6 +144,13 @@ class Config {
   }
   ["Transparency"]() {
     return `background-opacity = ${1 - (+this.jsonObj["Transparency"])}`;
+  }
+  ["Blur"]() {
+    if (this.jsonObj["Blur"]) {
+      return `background-blur = ${parseInt(this.jsonObj["Blur Radius"], 10)}`;
+    }
+
+    return `background-blur = false`;
   }
   ["Ansi 0 Color"]() {
     return `palette = 0=${rgbToHex(this.jsonObj["Ansi 0 Color"])}`;
