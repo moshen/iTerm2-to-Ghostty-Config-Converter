@@ -44,31 +44,6 @@ function getPlistJson(bytes) {
   return outJson;
 }
 
-function ghosttyTemplate(colors) {
-  return `palette = 0=${colors.ansi0}
-palette = 1=${colors.ansi1}
-palette = 2=${colors.ansi2}
-palette = 3=${colors.ansi3}
-palette = 4=${colors.ansi4}
-palette = 5=${colors.ansi5}
-palette = 6=${colors.ansi6}
-palette = 7=${colors.ansi7}
-palette = 8=${colors.ansi8}
-palette = 9=${colors.ansi9}
-palette = 10=${colors.ansi10}
-palette = 11=${colors.ansi11}
-palette = 12=${colors.ansi12}
-palette = 13=${colors.ansi13}
-palette = 14=${colors.ansi14}
-palette = 15=${colors.ansi15}
-background = ${colors.background}
-foreground = ${colors.foreground}
-cursor-color = ${colors.cursor}
-selection-background = ${colors.selection_bg}
-selection-foreground = ${colors.selection_fg}
-`;
-}
-
 /**
  * @param {number} value
  * @returns {string}
@@ -83,34 +58,113 @@ function rgbToHex(color) {
   return `#${floatToHex(color["Red Component"])}${floatToHex(color["Green Component"])}${floatToHex(color["Blue Component"])}`;
 }
 
-function iterm2ghosttyColors(config) {
-  return {
-    ansi0: rgbToHex(config["Ansi 0 Color"]),
-    ansi1: rgbToHex(config["Ansi 1 Color"]),
-    ansi2: rgbToHex(config["Ansi 2 Color"]),
-    ansi3: rgbToHex(config["Ansi 3 Color"]),
-    ansi4: rgbToHex(config["Ansi 4 Color"]),
-    ansi5: rgbToHex(config["Ansi 5 Color"]),
-    ansi6: rgbToHex(config["Ansi 6 Color"]),
-    ansi7: rgbToHex(config["Ansi 7 Color"]),
-    ansi8: rgbToHex(config["Ansi 8 Color"]),
-    ansi9: rgbToHex(config["Ansi 9 Color"]),
-    ansi10: rgbToHex(config["Ansi 10 Color"]),
-    ansi11: rgbToHex(config["Ansi 11 Color"]),
-    ansi12: rgbToHex(config["Ansi 12 Color"]),
-    ansi13: rgbToHex(config["Ansi 13 Color"]),
-    ansi14: rgbToHex(config["Ansi 14 Color"]),
-    ansi15: rgbToHex(config["Ansi 15 Color"]),
-    background: rgbToHex(config["Background Color"]),
-    foreground: rgbToHex(config["Foreground Color"]),
-    cursor: rgbToHex(config["Cursor Color"]),
-    selection_bg: rgbToHex(config["Selection Color"]),
-    selection_fg: rgbToHex(config["Selected Text Color"]),
-  };
-}
+class Config {
+  static stringFromJson(jsonObj) {
+    return new Config(jsonObj).getConfigString();
+  }
 
-function getConfig(obj) {
-  return ghosttyTemplate(iterm2ghosttyColors(obj));
+  constructor(jsonObj) {
+    this.jsonObj = jsonObj;
+  }
+
+  getConfigString() {
+    const fields = [
+      "Ansi 0 Color",
+      "Ansi 1 Color",
+      "Ansi 2 Color",
+      "Ansi 3 Color",
+      "Ansi 4 Color",
+      "Ansi 5 Color",
+      "Ansi 6 Color",
+      "Ansi 7 Color",
+      "Ansi 8 Color",
+      "Ansi 9 Color",
+      "Ansi 10 Color",
+      "Ansi 11 Color",
+      "Ansi 12 Color",
+      "Ansi 13 Color",
+      "Ansi 14 Color",
+      "Ansi 15 Color",
+      "Background Color",
+      "Foreground Color",
+      "Cursor Color",
+      "Selection Color",
+      "Selected Text Color",
+    ];
+
+    const configString = [];
+    for (const field of fields) {
+      if (this.jsonObj[field]) {
+        configString.push(this[field]());
+      }
+    }
+
+    return configString.join("\n") + "\n";
+  }
+
+  ["Ansi 0 Color"]() {
+    return `palette = 0=${rgbToHex(this.jsonObj["Ansi 0 Color"])}`;
+  }
+  ["Ansi 1 Color"]() {
+    return `palette = 1=${rgbToHex(this.jsonObj["Ansi 1 Color"])}`;
+  }
+  ["Ansi 2 Color"]() {
+    return `palette = 2=${rgbToHex(this.jsonObj["Ansi 2 Color"])}`;
+  }
+  ["Ansi 3 Color"]() {
+    return `palette = 3=${rgbToHex(this.jsonObj["Ansi 3 Color"])}`;
+  }
+  ["Ansi 4 Color"]() {
+    return `palette = 4=${rgbToHex(this.jsonObj["Ansi 4 Color"])}`;
+  }
+  ["Ansi 5 Color"]() {
+    return `palette = 5=${rgbToHex(this.jsonObj["Ansi 5 Color"])}`;
+  }
+  ["Ansi 6 Color"]() {
+    return `palette = 6=${rgbToHex(this.jsonObj["Ansi 6 Color"])}`;
+  }
+  ["Ansi 7 Color"]() {
+    return `palette = 7=${rgbToHex(this.jsonObj["Ansi 7 Color"])}`;
+  }
+  ["Ansi 8 Color"]() {
+    return `palette = 8=${rgbToHex(this.jsonObj["Ansi 8 Color"])}`;
+  }
+  ["Ansi 9 Color"]() {
+    return `palette = 9=${rgbToHex(this.jsonObj["Ansi 9 Color"])}`;
+  }
+  ["Ansi 10 Color"]() {
+    return `palette = 10=${rgbToHex(this.jsonObj["Ansi 10 Color"])}`;
+  }
+  ["Ansi 11 Color"]() {
+    return `palette = 11=${rgbToHex(this.jsonObj["Ansi 11 Color"])}`;
+  }
+  ["Ansi 12 Color"]() {
+    return `palette = 12=${rgbToHex(this.jsonObj["Ansi 12 Color"])}`;
+  }
+  ["Ansi 13 Color"]() {
+    return `palette = 13=${rgbToHex(this.jsonObj["Ansi 13 Color"])}`;
+  }
+  ["Ansi 14 Color"]() {
+    return `palette = 14=${rgbToHex(this.jsonObj["Ansi 14 Color"])}`;
+  }
+  ["Ansi 15 Color"]() {
+    return `palette = 15=${rgbToHex(this.jsonObj["Ansi 15 Color"])}`;
+  }
+  ["Background Color"]() {
+    return `background = ${rgbToHex(this.jsonObj["Background Color"])}`;
+  }
+  ["Foreground Color"]() {
+    return `foreground = ${rgbToHex(this.jsonObj["Foreground Color"])}`;
+  }
+  ["Cursor Color"]() {
+    return `cursor-color = ${rgbToHex(this.jsonObj["Cursor Color"])}`;
+  }
+  ["Selection Color"]() {
+    return `selection-background = ${rgbToHex(this.jsonObj["Selection Color"])}`;
+  }
+  ["Selected Text Color"]() {
+    return `selection-foreground = ${rgbToHex(this.jsonObj["Selected Text Color"])}`;
+  }
 }
 
 const aboutLinkElement = document.getElementById("aboutLink");
@@ -209,6 +263,10 @@ function getProfileNames(xml) {
   return { profileNames, colorSchemeNames };
 }
 
+/**
+ * @param {Element} xmlElement
+ * @returns {string}
+ */
 function templatePlistXml(xmlElement) {
   const xml = new XMLSerializer().serializeToString(xmlElement);
   const encoder = new TextEncoder();
@@ -218,6 +276,26 @@ function templatePlistXml(xmlElement) {
 ${xml}
 </plist>
 `);
+}
+
+/**
+ * @param {Document} xml - iTerm2 plist xml
+ * @returns {string[]} Array of recent fonts from a profile
+ */
+function getRecentFonts(xml) {
+  const recentFonts = [];
+  for (const key of xml.querySelectorAll("plist > dict > key")) {
+    if (key.textContent === "NoSyncBFPRecents") {
+      const recentFontsArray = key.nextElementSibling;
+      for (const font of recentFontsArray.children) {
+        recentFonts.push(font.textContent);
+      }
+      return recentFonts;
+    }
+  }
+
+  // Didn't find any recent fonts
+  return recentFonts;
 }
 
 /**
@@ -236,7 +314,9 @@ function getProfileJson(xml, profileName) {
             profileKey.textContent === "Name" &&
             profileKey.nextElementSibling.textContent === profileName
           ) {
-            return getPlistJson(templatePlistXml(profile));
+            const obj = getPlistJson(templatePlistXml(profile));
+            obj["Recent Fonts"] = getRecentFonts(xml);
+            return obj;
           }
         }
       }
@@ -338,7 +418,7 @@ async function processFile(file) {
 
       if (isColorScheme(xml)) {
         jsonObj = getPlistJson(bytes);
-        outputElement.textContent = getConfig(jsonObj);
+        outputElement.textContent = Config.stringFromJson(jsonObj);
         enableForm();
       } else {
         window._currentFile = xml;
@@ -382,7 +462,7 @@ async function processFile(file) {
       }
     } else if (isJson(bytes)) {
       jsonObj = JSON.parse(new TextDecoder().decode(bytes));
-      outputElement.textContent = getConfig(jsonObj);
+      outputElement.textContent = Config.stringFromJson(jsonObj);
       enableForm();
     } else {
       // We couldn't parse the file
@@ -407,7 +487,7 @@ function processSelected(selectedOption) {
       jsonObj = getColorSchemeJson(window._currentFile, selectedOption.value);
     }
 
-    outputElement.textContent = getConfig(jsonObj);
+    outputElement.textContent = Config.stringFromJson(jsonObj);
     enableForm();
   } catch (err) {
     showErrorMsg(err);
