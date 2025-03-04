@@ -29,7 +29,7 @@ The typical development loop is to run `serve` in one terminal while rebuilding
 various targets with something like:
 `./scripts/gmake.exe clean-index dist/index.html` in another.
 
-## Running locally
+## Running locally without building
 
 If you don't feel comfortable dropping your configs into a webpage, you can run
 this locally in a couple of commands.
@@ -37,8 +37,18 @@ this locally in a couple of commands.
 First, clone this repository. Then:
 
 ```shell
+git branch gh-pages origin/gh-pages
 git worktree add gh-pages
-./scripts/redbean.com -D gh-pages
+scripts/redbean.exe -l 127.0.0.1 -p 8080 -w / -D gh-pages
 ```
 
 Then you should be serving the build site locally on port `8080`.
+[`redbean.exe`](https://redbean.dev/)
+should work in Mac, Linux or Windows.
+
+Any other tool could be used to serve the folder locally. Python for instance:
+
+```shell
+git checkout gh-pages
+python -m http.server 8080 --bind 127.0.0.1
+```

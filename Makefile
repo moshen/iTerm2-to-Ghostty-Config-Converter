@@ -58,4 +58,4 @@ clean-index:
 
 .PHONY = serve
 serve: dist/index.html
-	./scripts/redbean.com -D dist
+	./scripts/redbean.exe -l 127.0.0.1 -p 8080 -w / -D dist
