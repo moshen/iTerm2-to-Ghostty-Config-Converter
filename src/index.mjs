@@ -69,6 +69,8 @@ class Config {
 
   getConfigString() {
     const fields = [
+      "Normal Font",
+      "Use Bright Bold",
       "Ansi 0 Color",
       "Ansi 1 Color",
       "Ansi 2 Color",
@@ -94,7 +96,7 @@ class Config {
 
     const configString = [];
     for (const field of fields) {
-      if (this.jsonObj[field]) {
+      if (Object.hasOwn(this.jsonObj, field)) {
         configString.push(this[field]());
       }
     }
@@ -102,6 +104,42 @@ class Config {
     return configString.join("\n") + "\n";
   }
 
+  ["Normal Font"]() {
+    const fontRecord = this.jsonObj["Normal Font"];
+    let match = fontRecord.match(/^(.+) ([0-9]+)$/);
+    if (!match) {
+      return `# Unknown font\n#font-family = ${fontRecord}`;
+    }
+
+    let fontName = match[1];
+    const fontSize = match[2];
+
+    // Check if exact font name is in recent fonts
+    if (!this.jsonObj["Recent Fonts"].includes(fontName)) {
+      // Try to find the closest match
+      const fontNameNoSpaces = fontName.replace(/\s/g, "");
+      fontName = this.jsonObj["Recent Fonts"].reduce((memo, font) => {
+        const fontNoSpaces = font.replace(/\s/g, "");
+        let i = 0;
+        for (; i < fontNoSpaces.length && i < fontNameNoSpaces.length; i++) {
+          if (fontNoSpaces[i] !== fontNameNoSpaces[i]) {
+            break;
+          }
+        }
+
+        if (i > memo.i) {
+          return {font, i};
+        }
+
+        return memo;
+      }, { i: -1 }).font;
+    }
+
+    return `font-family = ${fontName}\nfont-size = ${fontSize}`;
+  }
+  ["Use Bright Bold"]() {
+    return `bold-is-bright = ${this.jsonObj["Use Bright Bold"]}`;
+  }
   ["Ansi 0 Color"]() {
     return `palette = 0=${rgbToHex(this.jsonObj["Ansi 0 Color"])}`;
   }
