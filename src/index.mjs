@@ -70,6 +70,8 @@ class Config {
   getConfigString() {
     const fields = [
       "Normal Font",
+      "Horizontal Spacing",
+      "Vertical Spacing",
       "Use Bright Bold",
       "Transparency",
       "Blur",
@@ -99,7 +101,10 @@ class Config {
     const configString = [];
     for (const field of fields) {
       if (Object.hasOwn(this.jsonObj, field)) {
-        configString.push(this[field]());
+        const fieldConfig = this[field]();
+        if (fieldConfig !== "") {
+          configString.push(fieldConfig);
+        }
       }
     }
 
@@ -141,6 +146,26 @@ class Config {
     }
 
     return `font-family = ${fontName}\nfont-size = ${fontSize}`;
+  }
+  "Horizontal Spacing"() {
+    const spacing = this.jsonObj["Horizontal Spacing"];
+
+    if (spacing === 1) {
+      // We don't want to adjust the spacing
+      return "";
+    }
+
+    return `adjust-cell-width = ${(spacing * 100) - 100}%`;
+  }
+  "Vertical Spacing"() {
+    const spacing = this.jsonObj["Vertical Spacing"];
+
+    if (spacing === 1) {
+      // We don't want to adjust the spacing
+      return "";
+    }
+
+    return `adjust-cell-height = ${(spacing * 100) - 100}%`;
   }
   "Use Bright Bold"() {
     return `bold-is-bright = ${this.jsonObj["Use Bright Bold"]}`;
