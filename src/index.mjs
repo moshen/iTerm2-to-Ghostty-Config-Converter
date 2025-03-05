@@ -161,7 +161,7 @@ class Config {
       return "";
     }
 
-    return `adjust-cell-width = ${(spacing * 100) - 100}%`;
+    return `adjust-cell-width = ${spacing * 100 - 100}%`;
   }
   "Vertical Spacing"() {
     const spacing = this.jsonObj["Vertical Spacing"];
@@ -171,7 +171,7 @@ class Config {
       return "";
     }
 
-    return `adjust-cell-height = ${(spacing * 100) - 100}%`;
+    return `adjust-cell-height = ${spacing * 100 - 100}%`;
   }
   "Use Bold Font"() {
     if (this.jsonObj["Use Bold Font"] === false) {
@@ -192,22 +192,18 @@ class Config {
     // Since we only get true / false, we just want to mark if it's disabled
     return "";
   }
-  "Transparency"() {
-    return `background-opacity = ${1 - +this.jsonObj.Transparency}`;
+  Transparency() {
+    return `background-opacity = ${1 - this.jsonObj.Transparency}`;
   }
-  "Blur"() {
+  Blur() {
     if (this.jsonObj.Blur) {
-      return `background-blur = ${Number.parseInt(this.jsonObj["Blur Radius"], 10)}`;
+      return `background-blur = ${this.jsonObj["Blur Radius"].toFixed(0)}`;
     }
 
     return "background-blur = false";
   }
   "Cursor Type"() {
-    const cursorTypes = [
-      "underline",
-      "bar",
-      "block",
-    ];
+    const cursorTypes = ["underline", "bar", "block"];
 
     return `cursor-style = ${cursorTypes[this.jsonObj["Cursor Type"]]}`;
   }
@@ -223,11 +219,11 @@ class Config {
       return '# "SSH" "Custom Command" is not supported';
     }
 
-    if (!this.jsonObj["Command"]) {
+    if (!this.jsonObj.Command) {
       return "";
     }
 
-    return `command = ${this.jsonObj["Command"]}`;
+    return `command = ${this.jsonObj.Command}`;
   }
   "Custom Directory"() {
     if (this.jsonObj["Custom Directory"] === "No") {
