@@ -77,6 +77,8 @@ class Config {
       "Use Italic Font",
       "Transparency",
       "Blur",
+      "Cursor Type",
+      "Blinking Cursor",
       "Ansi 0 Color",
       "Ansi 1 Color",
       "Ansi 2 Color",
@@ -197,6 +199,18 @@ class Config {
     }
 
     return "background-blur = false";
+  }
+  "Cursor Type"() {
+    const cursorTypes = [
+      "underline",
+      "bar",
+      "block",
+    ];
+
+    return `cursor-style = ${cursorTypes[this.jsonObj["Cursor Type"]]}`;
+  }
+  "Blinking Cursor"() {
+    return `cursor-style-blink = ${this.jsonObj["Blinking Cursor"]}`;
   }
   "Ansi 0 Color"() {
     return `palette = 0=${rgbToHex(this.jsonObj["Ansi 0 Color"])}`;
