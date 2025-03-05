@@ -72,7 +72,9 @@ class Config {
       "Normal Font",
       "Horizontal Spacing",
       "Vertical Spacing",
+      "Use Bold Font",
       "Use Bright Bold",
+      "Use Italic Font",
       "Transparency",
       "Blur",
       "Ansi 0 Color",
@@ -167,8 +169,24 @@ class Config {
 
     return `adjust-cell-height = ${(spacing * 100) - 100}%`;
   }
+  "Use Bold Font"() {
+    if (this.jsonObj["Use Bold Font"] === false) {
+      return "font-style-bold = false";
+    }
+
+    // Since we only get true / false, we just want to mark if it's disabled
+    return "";
+  }
   "Use Bright Bold"() {
     return `bold-is-bright = ${this.jsonObj["Use Bright Bold"]}`;
+  }
+  "Use Italic Font"() {
+    if (this.jsonObj["Use Italic Font"] === false) {
+      return "font-style-italic = false";
+    }
+
+    // Since we only get true / false, we just want to mark if it's disabled
+    return "";
   }
   "Transparency"() {
     return `background-opacity = ${1 - +this.jsonObj.Transparency}`;
