@@ -79,6 +79,8 @@ class Config {
       "Blur",
       "Cursor Type",
       "Blinking Cursor",
+      "Custom Command",
+      "Custom Directory",
       "Ansi 0 Color",
       "Ansi 1 Color",
       "Ansi 2 Color",
@@ -211,6 +213,44 @@ class Config {
   }
   "Blinking Cursor"() {
     return `cursor-style-blink = ${this.jsonObj["Blinking Cursor"]}`;
+  }
+  "Custom Command"() {
+    if (this.jsonObj["Custom Command"] === "No") {
+      return "";
+    }
+
+    if (this.jsonObj["Custom Command"] === "SSH") {
+      return '# "SSH" "Custom Command" is not supported';
+    }
+
+    if (!this.jsonObj["Command"]) {
+      return "";
+    }
+
+    return `command = ${this.jsonObj["Command"]}`;
+  }
+  "Custom Directory"() {
+    if (this.jsonObj["Custom Directory"] === "No") {
+      return "";
+    }
+
+    if (this.jsonObj["Custom Directory"] === "Yes") {
+      if (this.jsonObj["Working Directory"]) {
+        return `working-directory = ${this.jsonObj["Working Directory"]}`;
+      }
+
+      return "";
+    }
+
+    if (this.jsonObj["Custom Directory"] === "Recycle") {
+      return "window-inherit-working-directory = true";
+    }
+
+    if (this.jsonObj["Custom Directory"] === "Advanced") {
+      return '# "Advanced" "Custom Directory" is not supported';
+    }
+
+    return "";
   }
   "Ansi 0 Color"() {
     return `palette = 0=${rgbToHex(this.jsonObj["Ansi 0 Color"])}`;
