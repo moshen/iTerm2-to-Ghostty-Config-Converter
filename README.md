@@ -54,5 +54,5 @@ Any other tool could be used to serve the folder locally. Python for instance:
 
 ```shell
 git checkout gh-pages
-python -m http.server 8080 --bind 127.0.0.1
+python3 -m http.server 8080 --bind 127.0.0.1
 ```
