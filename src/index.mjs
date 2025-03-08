@@ -79,9 +79,11 @@ class Config {
       "Blur",
       "Cursor Type",
       "Blinking Cursor",
+      "CopySelection",
       "Custom Command",
       "Custom Directory",
       "Treat Option as Alt",
+      "ShowSecureKeyboardEntryIndicator",
       "Ansi 0 Color",
       "Ansi 1 Color",
       "Ansi 2 Color",
@@ -211,6 +213,13 @@ class Config {
   "Blinking Cursor"() {
     return `cursor-style-blink = ${this.jsonObj["Blinking Cursor"]}`;
   }
+  CopySelection() {
+    if (this.jsonObj.CopySelection) {
+      return "copy-on-select = clipboard";
+    }
+
+    return "copy-on-select = false";
+  }
   "Custom Command"() {
     if (this.jsonObj["Custom Command"] === "No") {
       return "";
@@ -251,6 +260,9 @@ class Config {
   }
   "Treat Option as Alt"() {
     return `macos-option-as-alt = ${this.jsonObj["Treat Option as Alt"]}`;
+  }
+  ShowSecureKeyboardEntryIndicator() {
+    return `macos-secure-input-indication = ${this.jsonObj.ShowSecureKeyboardEntryIndicator}`;
   }
   "Ansi 0 Color"() {
     return `palette = 0=${rgbToHex(this.jsonObj["Ansi 0 Color"])}`;
@@ -429,23 +441,38 @@ ${xml}
 }
 
 /**
+ * @param {Object} jsonObj - iTerm2 profile plist pojo
  * @param {Document} xml - iTerm2 plist xml
- * @returns {string[]} Array of recent fonts from a profile
+ * @returns {void}
  */
-function getRecentFonts(xml) {
-  const recentFonts = [];
+function addTopLevelOptions(jsonObj, xml) {
+  jsonObj["Recent Fonts"] = [];
+
   for (const key of xml.querySelectorAll("plist > dict > key")) {
     if (key.textContent === "NoSyncBFPRecents") {
       const recentFontsArray = key.nextElementSibling;
       for (const font of recentFontsArray.children) {
-        recentFonts.push(font.textContent);
+        jsonObj["Recent Fonts"].push(font.textContent);
       }
-      return recentFonts;
+    }
+
+    if (key.textContent === "ShowSecureKeyboardEntryIndicator") {
+      jsonObj.ShowSecureKeyboardEntryIndicator =
+        key.nextElementSibling.tagName === "true";
+    }
+
+    if (key.textContent === "CopySelection") {
+      jsonObj.CopySelection = key.nextElementSibling.tagName === "true";
     }
   }
 
-  // Didn't find any recent fonts
-  return recentFonts;
+  // Default to true if these don't exist. This mimics iTerm2 behavior
+  if (!Object.hasOwn(jsonObj, "ShowSecureKeyboardEntryIndicator")) {
+    jsonObj.ShowSecureKeyboardEntryIndicator = true;
+  }
+  if (!Object.hasOwn(jsonObj, "CopySelection")) {
+    jsonObj.CopySelection = true;
+  }
 }
 
 /**
@@ -465,7 +492,7 @@ function getProfileJson(xml, profileName) {
             profileKey.nextElementSibling.textContent === profileName
           ) {
             const obj = getPlistJson(templatePlistXml(profile));
-            obj["Recent Fonts"] = getRecentFonts(xml);
+            addTopLevelOptions(obj, xml);
             return obj;
           }
         }
