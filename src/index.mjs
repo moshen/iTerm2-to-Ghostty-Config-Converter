@@ -81,6 +81,7 @@ class Config {
       "Blinking Cursor",
       "Custom Command",
       "Custom Directory",
+      "Treat Option as Alt",
       "Ansi 0 Color",
       "Ansi 1 Color",
       "Ansi 2 Color",
@@ -247,6 +248,9 @@ class Config {
     }
 
     return "";
+  }
+  "Treat Option as Alt"() {
+    return `macos-option-as-alt = ${this.jsonObj["Treat Option as Alt"]}`;
   }
   "Ansi 0 Color"() {
     return `palette = 0=${rgbToHex(this.jsonObj["Ansi 0 Color"])}`;
