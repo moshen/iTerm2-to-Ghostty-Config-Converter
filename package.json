@@ -1,0 +1,25 @@
+{
+  "name": "iterm2-to-ghostty-config-converter",
+  "version": "0.0.0-dev",
+  "description": "Web based iTerm2 to Ghostty config converter",
+  "main": "index.mjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moshen/iTerm2-to-Ghostty-Config-Converter.git"
+  },
+  "keywords": [
+    "ghostty"
+  ],
+  "author": "Colin Kennedy <moshen.colin@gmail.com>",
+  "license": "GPL-2.0",
+  "bugs": {
+    "url": "https://github.com/moshen/iTerm2-to-Ghostty-Config-Converter/issues"
+  },
+  "homepage": "https://github.com/moshen/iTerm2-to-Ghostty-Config-Converter#readme",
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4"
+  }
+}

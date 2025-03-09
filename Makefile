@@ -1,5 +1,6 @@
 SHELL := bash
 
+fmt_files := $(wildcard src/*.mjs src/*.html biome.json README.md)
 num_processors := $(shell nproc || printf "1")
 
 export EMCC_CFLAGS = -msimd128 -O2
@@ -56,6 +57,14 @@ clean: clean-submodules clean-dist
 .PHONY = clean-index
 clean-index:
 	rm -f dist/index.html dist/index.mjs
+
+.PHONY = fmt
+fmt:
+	./node_modules/.bin/biome format --fix $(fmt_files)
+
+.PHONY = lint
+lint:
+	./node_modules/.bin/biome lint --write --unsafe $(fmt_files)
 
 .PHONY = serve
 serve: dist/index.html

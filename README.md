@@ -23,15 +23,30 @@ Which if you're on a Mac you can install with Homebrew:
 brew install autoconf emscripten
 ```
 
+If you're using `mise` on mac you can install `emscripten` with that:
+
+```shell
+mise install
+```
+
 To build and serve:
 
 ```shell
-./scripts/gmake.exe serve
+make serve
 ```
 
 The typical development loop is to run `serve` in one terminal while rebuilding
 various targets with something like:
-`./scripts/gmake.exe clean-index dist/index.html` in another.
+`make clean-index dist/index.html` in another.
+
+### Formatting / Linting
+
+To format / lint, use `biome`:
+
+```shell
+npm ci
+make lint fmt
+```
 
 ## Running locally without building
 
